@@ -7,10 +7,11 @@ import retrofit2.http.GET
 const val POKEMON_URL = "https://api.pokemontcg.io/v2/"
 
 interface PokemonAPI {
-    @GET("cards/")
-    suspend fun getPokemon(): PokemonData
+    @GET("cards/?orderBy=name")
+    suspend fun getPokemonCards(): PokemonData
+
     companion object {
-        operator fun invoke() : PokemonAPI =
+        operator fun invoke(): PokemonAPI =
             Retrofit.Builder()
                 .baseUrl(POKEMON_URL)
                 .addConverterFactory(MoshiConverterFactory.create())
@@ -24,9 +25,9 @@ data class PokemonData(
 )
 
 data class Data(
-    val id: String,
     val name: String,
-    val images: Images
+    val images: Images,
+    val supertype: String
 )
 
 data class Images(
